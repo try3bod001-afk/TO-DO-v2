@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F1F5F7">
+<title>نزّل To Do</title>
+<meta name="description" content="To Do: تطبيق لمتابعة المواد والمهام والجدول اليومي. مجاني وبيشتغل من غير إنترنت.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F1F5F7;--ink:#0D1B22;--mute:#52646c;--teal:#0F766E;--deep:#0B4F49;--mint:#CDEFE9;--amber:#F59E0B;--line:#D3DDE1;--card:#fff}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{background:var(--paper);scroll-behavior:smooth}
+body{font-family:"IBM Plex Sans Arabic","Segoe UI",system-ui,Tahoma,sans-serif;color:var(--ink);line-height:1.8;font-size:17px;padding:0 20px env(safe-area-inset-bottom)}
+.wrap{max-width:1000px;margin:0 auto}
+a{color:var(--deep)}
+:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-radius:6px}
+
+/* الشريط العلوي */
+.top{display:flex;align-items:center;gap:12px;padding:max(22px,env(safe-area-inset-top)) 0 8px;font-weight:700;font-size:19px}
+.top img{width:42px;height:42px;border-radius:12px}
+
+/* الأعلى: النص + الهاتف */
+.hero{display:grid;gap:34px;padding:22px 0 46px;align-items:center}
+h1{font-size:clamp(34px,9vw,52px);line-height:1.25;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.lead{margin-top:14px;color:var(--mute);font-size:18px;max-width:30em}
+.cta{margin-top:26px;display:grid;gap:10px;max-width:380px}
+.btn{font:inherit;font-weight:700;font-size:20px;color:#fff;background:var(--teal);border:2px solid var(--deep);border-radius:14px;padding:16px 22px;cursor:pointer;box-shadow:0 4px 0 var(--deep);display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .12s,box-shadow .12s}
+.btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--deep)}
+.fine{color:var(--mute);font-size:15px}
+.help{display:none;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;font-size:16px}
+.help.on{display:block}
+
+/* الهاتف: التطبيق الحقيقي */
+.stage{display:grid;place-items:center;position:relative;padding:14px 0}
+.stage::before{content:"";position:absolute;width:min(360px,90%);aspect-ratio:1;border-radius:50%;background:var(--mint);z-index:0}
+.phone{position:relative;z-index:1;width:250px;height:508px;border-radius:38px;background:var(--deep);padding:8px;box-shadow:0 30px 50px -24px #0b4f49aa}
+.screen{position:relative;width:100%;height:100%;border-radius:30px;overflow:hidden;background:var(--paper);direction:ltr}
+.screen iframe{position:absolute;top:0;left:0;width:390px;height:800px;border:0;transform:scale(.6);transform-origin:0 0;background:var(--paper)}
+.screen .ph{position:absolute;inset:0;display:grid;place-items:center}.screen .ph img{width:72px;border-radius:18px}
+.hint{margin-top:14px;text-align:center;color:var(--mute);font-size:15px;position:relative;z-index:1}
+
+/* الأقسام */
+section.blk{padding:40px 0;border-top:1px solid var(--line)}
+h2{font-size:27px;line-height:1.4;font-weight:700;margin-bottom:22px}
+.feats{display:grid;gap:22px;list-style:none}
+.feats b{display:block;font-size:19px}
+.feats span{color:var(--mute)}
+.feats li{padding-inline-start:18px;border-inline-start:4px solid var(--teal)}
+.how{display:grid;gap:30px}
+.how h3{font-size:20px;margin-bottom:8px}
+.how ol{padding-inline-start:22px;display:grid;gap:6px}
+.how li::marker{font-weight:700;color:var(--teal)}
+footer{border-top:1px solid var(--line);padding:22px 0 34px;color:var(--mute);font-size:15px;display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
+
+@media(min-width:860px){
+  .hero{grid-template-columns:1.1fr .9fr;gap:60px;padding:40px 0 70px}
+  .feats{grid-template-columns:1fr 1fr;gap:28px 48px}
+  .how{grid-template-columns:1fr 1fr;gap:60px}
+}
+</style></head><body>
+<div class="wrap">
+  <div class="top"><img src="icon-192.png" alt="">To Do</div>
+
+  <header class="hero">
+    <div>
+      <h1>رتّب مذاكرتك وخلّص مهامك في تطبيق واحد</h1>
+      <p class="lead">تابع كل مادة ومهامها، وخطّط ليومك، وابدأ جلسة تركيز لما تحتاجها. كل ده من غير إنترنت.</p>
+      <div class="cta">
+        <button class="btn" id="ins" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg><span id="lbl">نزّل التطبيق</span></button>
+        <div class="help" id="help" role="status" aria-live="polite"></div>
+        <p class="fine">مجاني، ومن غير تسجيل. بياناتك بتتحفظ على جهازك بس.</p>
+      </div>
+    </div>
+    <div>
+      <div class="stage"><div class="phone"><div class="screen" id="screen"><div class="ph"><img src="icon-192.png" alt=""></div></div></div></div>
+      <p class="hint">ده التطبيق نفسه. جرّب تضغط عليه.</p>
+    </div>
+  </header>
+
+  <section class="blk" aria-labelledby="f">
+    <h2 id="f">اللي هتلاقيه جواه</h2>
+    <ul class="feats">
+      <li><b>مهام لكل مادة</b><span>قسّم كل مادة لمهام، وعلّم اللي خلّصته، وشوف نسبة إنجازك.</span></li>
+      <li><b>مؤقّت تركيز</b><span>ابدأ جلسة مذاكرة، والتطبيق ينبّهك لما الوقت يخلص.</span></li>
+      <li><b>جدول الشهر</b><span>خطّط لكل يوم، وراجع الأيام اللي خلّصتها.</span></li>
+      <li><b>تقرير للطباعة</b><span>اطبع تقرير الشهر أو احفظه PDF، وكمّل عليه بالقلم.</span></li>
+    </ul>
+  </section>
+
+  <section class="blk" aria-labelledby="h">
+    <h2 id="h">إزاي تنزّله</h2>
+    <div class="how">
+      <div><h3>على أندرويد</h3><ol><li>اضغط «نزّل التطبيق».</li><li>اختار «تثبيت» من النافذة اللي بتظهر.</li><li>هتلاقي To Do في تطبيقاتك.</li></ol></div>
+      <div><h3>على آيفون</h3><ol><li>افتح الصفحة دي في سفاري.</li><li>اضغط زر المشاركة.</li><li>اختار «إضافة إلى الشاشة الرئيسية».</li></ol></div>
+    </div>
+  </section>
+
+  <footer><span>To Do</span><a href="todo-app.zip" download="todo-app.zip">تحميل ملفات البرنامج</a></footer>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const ua=navigator.userAgent,ios=/iphone|ipad|ipod/i.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+let ev=null;const help=h=>{$("help").innerHTML=h;$("help").classList.add("on")};
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();ev=e});
+addEventListener("appinstalled",()=>help("اتثبّت. هتلاقي To Do في تطبيقاتك."));
+if(matchMedia("(display-mode: standalone)").matches||navigator.standalone){$("lbl").textContent="افتح التطبيق";$("ins").onclick=()=>location.href="./index.html"}
+else{
+  if(ios)$("lbl").textContent="إضافة للشاشة الرئيسية";
+  $("ins").addEventListener("click",async()=>{
+    if(ev){ev.prompt();await ev.userChoice;ev=null;return}
+    if(ios)return help("اضغط زر المشاركة في سفاري، وبعدها اختار «إضافة إلى الشاشة الرئيسية».");
+    help("افتح قايمة المتصفح (⋮) واختار «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية». ولو مش ظاهرة، <a href='./index.html'>افتح التطبيق في المتصفح</a>.")
+  })
+}
+addEventListener("load",()=>{const f=document.createElement("iframe");f.src="index.html?demo#/";f.title="معاينة حية للتطبيق";f.onload=()=>{$("screen").querySelector(".ph")?.remove()};$("screen").appendChild(f)});
+</script></body></html>

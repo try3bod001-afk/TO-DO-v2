@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#04211F">
+<title>تنزيل To Do</title>
+<meta name="description" content="To Do — متابعة المهام والجدول اليومي. بيشتغل من غير نت.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+/* حرج: يظهر فورًا */
+:root{--bg:#04211F;--teal:#0F766E;--mint:#5EEAD4;--ink:#E8F5F3;--mute:#9CC3BE;--amber:#F59E0B;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%;background:var(--bg)}
+body{font-family:"Segoe UI",system-ui,-apple-system,"Noto Sans Arabic","Noto Kufi Arabic",Tahoma,sans-serif;color:var(--ink);overflow-x:hidden}
+#splash{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .4s ease,visibility .4s}
+#splash svg{width:84px;height:84px;border-radius:20px;animation:pulse 1.1s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(.92);opacity:.7}}
+body.ready #splash{opacity:0;visibility:hidden}
+main{visibility:hidden}
+body.ready main{visibility:visible}
+</style>
+<style>
+/* ===== الخلفية ===== */
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;background:linear-gradient(180deg,#04211F 0%,#052B27 55%,#04211F 100%)}
+.blob{position:absolute;border-radius:50%;will-change:transform}
+.b1{width:520px;height:520px;top:-180px;right:-160px;background:radial-gradient(circle,#14B8A66e 0%,transparent 68%);animation:d1 18s ease-in-out infinite alternate}
+.b2{width:460px;height:460px;top:38%;left:-200px;background:radial-gradient(circle,#F59E0B33 0%,transparent 68%);animation:d2 22s ease-in-out infinite alternate}
+.b3{width:560px;height:560px;bottom:-240px;right:-120px;background:radial-gradient(circle,#0F766E80 0%,transparent 68%);animation:d1 26s ease-in-out infinite alternate-reverse}
+@keyframes d1{to{transform:translate(-60px,70px) scale(1.12)}}
+@keyframes d2{to{transform:translate(90px,-50px) scale(1.1)}}
+.dots{position:absolute;inset:0;background-image:radial-gradient(#ffffff1f 1px,transparent 1.2px);background-size:26px 26px;-webkit-mask-image:radial-gradient(80% 60% at 50% 25%,#000 20%,transparent 75%);mask-image:radial-gradient(80% 60% at 50% 25%,#000 20%,transparent 75%)}
+.ghost{position:absolute;border:2px solid #5EEAD41f;border-radius:26px}
+.g1{width:120px;height:150px;top:9%;left:-34px;transform:rotate(14deg)}
+.g2{width:90px;height:112px;top:56%;right:-26px;transform:rotate(-12deg)}
+.g1::before,.g2::before{content:"";position:absolute;inset:22px 18px auto;height:10px;border-radius:6px;background:#5EEAD426;box-shadow:0 22px 0 #5EEAD41c,0 44px 0 #5EEAD41c}
+
+main{max-width:460px;margin:0 auto;padding:max(26px,env(safe-area-inset-top)) 24px max(36px,env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center;text-align:center;position:relative}
+
+/* ===== الهاتف (التطبيق الحقيقي جواه) ===== */
+.stage{position:relative;width:100%;height:468px;display:flex;justify-content:center;align-items:flex-start;padding-top:14px}
+.stage::before{content:"";position:absolute;top:40px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,#2DD4BF55,transparent 68%);filter:blur(6px)}
+.phone{position:relative;width:236px;height:440px;border-radius:40px;background:#07100F;border:7px solid #1A4A44;box-shadow:0 44px 70px -26px #000d,0 0 0 1px #3a8a80 inset,0 0 90px -12px #14B8A688;transform:rotate(-4deg);overflow:hidden;opacity:0;translate:0 26px;transition:opacity .7s ease,translate .8s cubic-bezier(.2,.8,.2,1)}
+body.ready .phone{opacity:1;translate:0 0}
+.phone::after{content:"";position:absolute;top:8px;left:50%;width:62px;height:16px;margin-left:-31px;border-radius:12px;background:#000;z-index:3}
+.view{position:absolute;inset:0;direction:ltr;overflow:hidden;background:#F1F5F7}
+.view img.fallback{position:absolute;inset:0;margin:auto;width:84px;height:84px;border-radius:20px}
+.view iframe{position:absolute;top:0;left:0;width:390px;height:748px;border:0;transform:scale(.569);transform-origin:0 0;pointer-events:auto;opacity:0;transition:opacity .5s ease;background:#F1F5F7}
+.view iframe.on{opacity:1}
+
+/* ===== النص ===== */
+.try{margin-top:2px;font-size:13px;font-weight:600;color:var(--mint);background:#14B8A61f;border:1px solid #5EEAD440;border-radius:99px;padding:6px 14px}
+.fl{position:absolute;font-size:30px;opacity:.16;filter:saturate(.7);animation:fl 9s ease-in-out infinite alternate}
+.fl:nth-child(2n){animation-duration:12s;animation-direction:alternate-reverse}
+@keyframes fl{to{transform:translateY(-26px) rotate(10deg)}}
+h1{font-size:46px;font-weight:800;letter-spacing:-.02em;line-height:1.1;margin-top:6px}
+.lead{margin-top:12px;font-size:17px;line-height:1.8;color:var(--mute);max-width:340px}
+
+.cta{margin-top:28px;width:100%}
+button.install{width:100%;font:inherit;font-size:19px;font-weight:700;color:#04211F;background:linear-gradient(180deg,#7DF3E0,#2DD4BF);border:0;border-radius:18px;padding:19px 20px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 18px 38px -14px #2DD4BFbb,0 1px 0 #fff8 inset;transition:transform .15s}
+button.install:active{transform:scale(.98)}
+button.install svg{width:22px;height:22px;stroke:currentColor;stroke-width:2.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+button.install:focus-visible,.link:focus-visible,.sheet button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.note{margin-top:14px;font-size:13.5px;color:var(--mute)}
+.done{display:none;padding:20px;border-radius:18px;background:#14B8A622;border:1px solid #5EEAD455;font-size:18px;font-weight:700;color:var(--mint)}
+.done a{display:inline-block;margin-top:10px;color:#fff;font-size:15px;font-weight:600}
+body.installed .done{display:block}
+body.installed button.install,body.installed .note{display:none}
+.hint{display:none;margin-top:14px;text-align:right;font-size:14px;line-height:1.9;background:#ffffff14;border:1px solid #ffffff1f;border-radius:16px;padding:14px 16px;backdrop-filter:blur(6px)}
+.hint.show{display:block}
+.link{margin-top:10px;font:inherit;font-size:14px;font-weight:600;color:var(--mint);background:none;border:1px solid #5EEAD466;border-radius:12px;padding:9px 14px;cursor:pointer}
+
+/* ===== المزايا ===== */
+.feats{margin-top:42px;width:100%;text-align:right}
+.feats h2{font-size:20px;font-weight:700;margin-bottom:14px}
+.list{display:grid;gap:10px}
+.f{display:flex;gap:14px;align-items:center;padding:15px 16px;border-radius:18px;background:linear-gradient(180deg,#ffffff12,#ffffff08);border:1px solid #ffffff1a;backdrop-filter:blur(8px)}
+.f .ic{width:44px;height:44px;border-radius:13px;background:#14B8A624;display:grid;place-items:center;flex:none}
+.f svg{width:24px;height:24px;stroke:var(--mint);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.f b{display:block;font-size:16px;font-weight:700}
+.f small{display:block;margin-top:2px;font-size:13.5px;color:var(--mute);line-height:1.6}
+.foot{margin-top:34px;font-size:13px;color:#9CC3BE99}
+
+/* ===== شيت الآيفون ===== */
+.veil{position:fixed;inset:0;background:#000b;opacity:0;visibility:hidden;transition:.25s;z-index:30}
+.sheet{position:fixed;inset:auto 0 0 0;z-index:31;max-width:460px;margin:0 auto;background:#0B2E2B;border:1px solid #ffffff1c;border-bottom:0;border-radius:26px 26px 0 0;padding:24px 22px max(26px,env(safe-area-inset-bottom));text-align:right;transform:translateY(105%);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+body.sheet-open .veil{opacity:1;visibility:visible}
+body.sheet-open .sheet{transform:none}
+.sheet h2{font-size:21px;margin-bottom:6px}
+.sheet p{color:var(--mute);font-size:14px}
+.sheet ol{list-style:none;margin:18px 0 22px;display:grid;gap:14px;counter-reset:s}
+.sheet li{counter-increment:s;display:flex;gap:12px;align-items:center;font-size:16px;line-height:1.6}
+.sheet li::before{content:counter(s);width:30px;height:30px;border-radius:50%;background:#14B8A62e;color:var(--mint);font-weight:700;display:grid;place-items:center;flex:none;font-size:15px}
+.sheet li svg{width:20px;height:20px;stroke:var(--mint);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-4px;margin:0 3px}
+.sheet button{width:100%;font:inherit;font-size:17px;font-weight:700;background:#ffffff14;color:#fff;border:0;border-radius:14px;padding:15px;cursor:pointer}
+
+@media (max-height:720px){.stage{height:380px}.phone{scale:.84;transform-origin:top center}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head>
+<body>
+
+<div class="bg" aria-hidden="true"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="dots"></div><span class="fl" style="top:14%;right:8%">🧬</span><span class="fl" style="top:30%;left:7%">🔬</span><span class="fl" style="top:52%;right:11%">🩸</span><span class="fl" style="top:68%;left:9%">🧪</span><span class="fl" style="top:86%;right:16%">📚</span><span class="fl" style="top:44%;left:42%;font-size:22px">⚗️</span><div class="ghost g1"></div><div class="ghost g2"></div></div>
+
+<div id="splash" aria-hidden="true">
+<svg viewBox="0 0 512 512"><defs><linearGradient id="g0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0B5E57"/><stop offset="1" stop-color="#14B8A6"/></linearGradient></defs><rect width="512" height="512" rx="112" fill="url(#g0)"/><rect x="122" y="99" width="268" height="316" rx="64" fill="none" stroke="#fff" stroke-width="16"/><g fill="#fff"><rect x="164" y="154" width="42" height="42" rx="10"/><rect x="164" y="236" width="42" height="42" rx="10"/><rect x="236" y="164" width="112" height="22" rx="11"/><rect x="236" y="246" width="84" height="22" rx="11"/><rect x="236" y="328" width="100" height="22" rx="11"/></g><path d="M174 176l8 8 14-16M174 258l8 8 14-16" fill="none" stroke="#0F766E" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><rect x="168" y="322" width="34" height="34" rx="7" fill="none" stroke="#fff" stroke-width="8"/></svg>
+</div>
+
+<main>
+  <div class="stage">
+    <div class="phone"><div class="view" id="view">
+      <img class="fallback" src="icon-192.png" alt="">
+    </div></div>
+  </div>
+
+  <p class="try">👆 ده التطبيق الحقيقي — جرّبه بإيدك</p>
+  <h1>To Do</h1>
+  <p class="lead">رتّب مذاكرتك ومهامك اليومية في مكان واحد، وكمّل شغلك حتى من غير نت.</p>
+
+  <div class="cta">
+    <button class="install" id="install" type="button">
+      <svg viewBox="0 0 24 24"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg>
+      <span id="label">تنزيل التطبيق</span>
+    </button>
+    <p class="note">مجاني • من غير تسجيل • بياناتك على جهازك بس</p>
+    <div class="done" id="done">✓ التطبيق اتثبّت على جهازك<br><a href="./index.html">افتح التطبيق</a></div>
+    <div class="hint" id="hint"></div>
+    <button class="link" id="copy" type="button" style="display:none">نسخ الرابط</button>
+  </div>
+
+  <section class="feats">
+    <h2>إيه اللي جواه</h2>
+    <div class="list">
+      <div class="f"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 012-2h12a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span><div><b>مواد وفصول</b><small>قسّم كل مادة لفصول وشوف نسبة إنجازك فيها.</small></div></div>
+      <div class="f"><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4M8.5 15l2 2 4-4"/></svg></span><div><b>جدول يومي</b><small>اكتب مهام كل يوم وعلّم عليها لما تخلّصها.</small></div></div>
+      <div class="f"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><div><b>إحصائيات الأسبوع</b><small>رسم بسيط بالمهام اللي خلّصتها في آخر ٧ أيام ودقايق التركيز.</small></div></div>
+      <div class="f"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></span><div><b>بحث سريع</b><small>دوّر على أي مادة أو مهمة، حتى في أيام الجدول القديمة.</small></div></div>
+      <div class="f"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 9.5v4l2.5 1.5M9.5 3h5"/></svg></span><div><b>مؤقّت وموعد الامتحان</b><small>مؤقّت تركيز بتنبيه بسيط، وعدّاد للامتحان القادم وكام مهمة محتاج كل يوم.</small></div></div>
+      <div class="f"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg></span><div><b>نسخة احتياطية</b><small>صدّر بياناتك في ملف واستورده في أي وقت.</small></div></div>
+      <div class="f"><span class="ic"><svg viewBox="0 0 24 24"><path d="M7 9V3h10v6M7 17H5a2 2 0 01-2-2v-4a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2h-2"/><rect x="7" y="14" width="10" height="7" rx="1"/></svg></span><div><b>طباعة</b><small>اطبع جدولك وخليه معاك ورقي.</small></div></div>
+      <div class="f"><span class="ic"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z"/></svg></span><div><b>وضع ليلي ونهاري</b><small>غيّر الشكل بضغطة حسب راحة عينك.</small></div></div>
+      <div class="f"><span class="ic"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></span><div><b>من غير نت وبخصوصية</b><small>بيشتغل أوفلاين وبياناتك محفوظة على جهازك بس.</small></div></div>
+      <div class="f"><span class="ic"><svg viewBox="0 0 24 24"><path d="M9 3.5h6a6 6 0 016 6V11a6 6 0 01-6 6h-3.5L7 21v-4.3A6 6 0 013 11V9.5a6 6 0 016-6z"/></svg></span><div><b>تواصل معايا</b><small>ابعت اقتراحك من جوه التطبيق وهيوصلني مباشرة.</small></div></div>
+    </div>
+  </section>
+  <p class="foot">To Do</p>
+</main>
+
+<div class="veil" id="veil"></div>
+<div class="sheet" id="sheet" role="dialog" aria-label="التثبيت على الآيفون">
+  <h2>التثبيت على الآيفون</h2>
+  <p>لازم تفتح الصفحة من Safari.</p>
+  <ol>
+    <li>اضغط زر المشاركة <svg viewBox="0 0 24 24"><path d="M12 15V3m0 0L8 7m4-4l4 4M6 11H5a1 1 0 00-1 1v8a1 1 0 001 1h14a1 1 0 001-1v-8a1 1 0 00-1-1h-1"/></svg> تحت</li>
+    <li>اختار <b>Add to Home Screen</b></li>
+    <li>اضغط <b>Add</b> فوق على اليمين</li>
+  </ol>
+  <button type="button" id="close">تمام</button>
+</div>
+
+<script>
+(function(){
+  var B=document.body,$=function(i){return document.getElementById(i)};
+  var ua=navigator.userAgent,
+      ios=/iphone|ipad|ipod/i.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1),
+      inapp=/FBAN|FBAV|Instagram|Snapchat|TikTok|Line\/|MicroMessenger|; wv\)/i.test(ua),
+      standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone;
+
+  if(standalone){location.replace("./index.html");return}
+
+  /* الصفحة ما تظهرش غير بعد التحميل الكامل (حد أقصى ثانيتين) */
+  var shown=false;
+  function reveal(){
+    if(shown)return;shown=true;
+    B.classList.add("ready");
+    setTimeout(loadApp,300);   /* التطبيق الحقيقي بيتحمّل بعد ما الصفحة تظهر */
+  }
+  if(document.readyState==="complete")reveal();else addEventListener("load",reveal);
+  setTimeout(reveal,2000);
+
+  /* التطبيق الحقيقي جوه إطار الموبايل بيانات تجريبية (?demo) وتقدر تضغط وتتنقّل فيه بنفسك */
+  function loadApp(){
+    try{
+      var f=document.createElement("iframe");
+      f.src="index.html?demo#/";f.title="معاينة حية للتطبيق — جرّب تضغط عليه";
+      f.onload=function(){f.classList.add("on")};
+      $("view").appendChild(f);
+    }catch(e){}
+  }
+
+  if(ios)$("label").textContent="إضافة للشاشة الرئيسية";
+  if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(function(){});
+
+  var deferred=null;
+  addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferred=e});
+  addEventListener("appinstalled",function(){B.classList.add("installed")});
+
+  function openSheet(){B.classList.add("sheet-open")}
+  function closeSheet(){B.classList.remove("sheet-open")}
+  $("close").onclick=$("veil").onclick=closeSheet;
+
+  function copyBtn(){
+    var b=$("copy");b.style.display="inline-block";
+    b.onclick=function(){
+      var u=location.href;
+      (navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(function(){b.textContent="اتنسخ ✓"},function(){prompt("انسخ الرابط:",u)});
+    };
+  }
+  function showHint(h){var e=$("hint");e.innerHTML=h;e.classList.add("show")}
+
+  $("install").onclick=function(){
+    if(deferred){
+      deferred.prompt();
+      deferred.userChoice.then(function(c){if(c.outcome==="accepted")B.classList.add("installed");deferred=null});
+      return;
+    }
+    if(ios){
+      if(inapp){showHint("افتح الرابط من <b>Safari</b> عشان تقدر تثبّته.");copyBtn()}
+      else openSheet();
+      return;
+    }
+    if(inapp){showHint("افتح الرابط في <b>Chrome</b> الأول، بعدين اضغط تنزيل.");copyBtn();return}
+    showHint("افتح قايمة المتصفح <b>⋮</b> واختار <b>Install app</b> أو <b>Add to Home screen</b>.");
+  };
+})();
+</script>
+</body></html>
